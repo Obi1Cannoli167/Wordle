@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <TFT_eSPI.h>
 #include <Arduino.h>
+#include "Core/accessibility.h"
 extern TFT_eSPI tft;
 extern int headingSize;
 extern int regularSize;
