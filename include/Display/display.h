@@ -2,5 +2,6 @@
 #define DISPLAY_H
 
 void initializeDisplay();
+void clearDisplay();
 
 #endif

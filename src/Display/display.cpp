@@ -21,3 +21,9 @@ void initializeDisplay()
     tft.setCursor(x, y);
     tft.print("Wordle");
 }
+
+// Compartmentalizing commonly used statements
+void clearDisplay()
+{
+    tft.fillScreen(TFT_WHITE);
+}
