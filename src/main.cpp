@@ -11,6 +11,14 @@
 TFT_eSPI tft = TFT_eSPI();
 int headingSize = 3;
 int regularSize = 2;
+
+// Global interface state variable
+// 0 - Resizing terminal
+// 1 - Wordle title
+// 2 - Main menu
+// 3 - Player setup
+// 4 - Player choice
+// 5 - Game itself
 int interfaceState = 0;
 options option = NEW_PLAYER; // Default option
 // put function definitions here:
@@ -46,13 +54,34 @@ void keyHandler(char key)
     else if (key == ' ')
     {
       // Select current option
+      if (option == NEW_PLAYER)
+      {
+        // New player selected
+        playerSetup();
+      }
+      else if (option == EXISTING_PLAYER)
+      {
+        // Existing player selected
+        chooseExistingPlayer();
+        // Future implementation for existing player choice
+      }
     }
     break;
   case 3: // Player setup
     // Future implementation for handling player setup inputs
+    if (key == 27) // ESC key
+    {
+      mainMenu();
+      option = NEW_PLAYER;
+    }
     break;
   case 4: // Player choice
     // Future implementation for handling player choice inputs
+    if (key == 27) // ESC key
+    {
+      mainMenu();
+      option = NEW_PLAYER;
+    }
     break;
   case 5: // Game itself
     // Future implementation for handling game inputs

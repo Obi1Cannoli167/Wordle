@@ -7,6 +7,8 @@ void makeFrame();
 void instructResize();
 void wordleTitle();
 void mainMenu();
+void playerSetup();
+void chooseExistingPlayer();
 void selectionHandler(options option);
 
 #endif // TERMINALINTERFACE_H

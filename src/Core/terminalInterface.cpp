@@ -10,7 +10,6 @@
 #define width 40
 #define height 30
 
-// Interfasestate used here for the functions that change the value
 extern int interfaceState;
 // To be considered if needed:
 // extern options option;
@@ -106,7 +105,12 @@ void wordleTitle()
     makeFrame();
 
     // Welcome to
-    // Wordle
+    /*
+    __    __    __              | ||
+    \ \  /  \  / /  __   __   __| ||   __
+     \ \/ /\ \/ /  /  \ |  / /  | ||  /__>
+      \__/  \__/   \__/ |_|  \__| |_| \__
+    */
 
     setCursor(6, textCenter(10));
     sp("Welcome to");
@@ -127,6 +131,12 @@ void mainMenu()
     screenWonB();
     interfaceState = 2;
     makeFrame();
+    /*
+     _   _
+    | \ / |  __   __
+    |  V  | /__> |  \ |  |
+    |_\_/_| \__  |  | \__/
+    */
     setCursor(5, textCenter(22));
     sp(" _   _                ");
     setCursor(6, textCenter(22));
@@ -142,9 +152,9 @@ void mainMenu()
     setCursor(15, textCenter(22));
     sp("Choose existing player");
 
-    setCursor(height-2, 2);
+    setCursor(height - 2, 2);
     sp("Change options: W, S");
-    setCursor(height-1, 2);
+    setCursor(height - 1, 2);
     sp("Select option: Spacebar");
 
     selectionHandler(NEW_PLAYER);
@@ -156,12 +166,61 @@ void playerSetup()
     screenWonB();
     interfaceState = 3;
     makeFrame();
-    setCursor(5, textCenter(12));
-    sp("Player Setup");
-    setCursor(7, textCenter(30));
-    sp("Enter your name (max 10 characters): ");
-    setCursor(9, textCenter(10));
+    /*
+     ___
+    / __|  __            __
+    \__ \ /__> _|_ |  | |  \
+    |___/ \__   |  \__/ |__/
+                \_      |
+    */
+    setCursor(5, textCenter(24));
+    sp(" ___");
+    setCursor(6, textCenter(24));
+    sp("/ __|  __            __");
+    setCursor(7, textCenter(24));
+    sp("\\__ \\ /__> _|_ |  | |  \\");
+    setCursor(8, textCenter(24));
+    sp("|___/ \\__   |  \\__/ |__/");
+    setCursor(9, textCenter(24));
+    sp("            \\_      |");
+    setCursor(10, textCenter(24));
+    sp("________________________");
+    setCursor(12, textCenter(36));
+    sp("Enter username (max 10 characters):");
+    setCursor(14, textCenter(12));
     sp("> ");
+    setCursor(height - 2, 2);
+    sp("Press ESC to return to main menu.");
+}
+
+void chooseExistingPlayer()
+{
+    clrScreen();
+    screenWonB();
+    interfaceState = 4;
+    makeFrame();
+    setCursor(5, textCenter(20));
+    /*
+     __
+    /  \ |     __   __   __  __
+    |    |__  /  \ /  \ /__ /__>
+    \__/ |  | \__/ \__/ __/ \__
+    ____________________________
+    */
+    setCursor(8, textCenter(28));
+    sp(" __   ");
+    setCursor(9, textCenter(28));
+    sp("/  \\ |     __   __   __  __");
+    setCursor(10, textCenter(28));
+    sp("|    |__  /  \\ /  \\ /__ /__>");
+    setCursor(11, textCenter(28));
+    sp("\\__/ |  | \\__/ \\__/ __/ \\__");
+    setCursor(12, textCenter(28));
+    sp("____________________________");
+    setCursor(14, textCenter(21));
+    sp("Feature coming soon!");
+    setCursor(height - 2, 2);
+    sp("Press ESC to return to main menu.");
 }
 
 void selectionHandler(options option)
@@ -186,6 +245,10 @@ void selectionHandler(options option)
             setCursor(15, textCenterEnd(22) + 1);
             sp("<--");
         }
+        break;
+    case 3:
+        // Future implementation for player setup selection handling
+        break;
     }
 }
 
