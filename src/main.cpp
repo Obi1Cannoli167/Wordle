@@ -1,16 +1,21 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>
+#include <Preferences.h> // Storing struct instances in flash
 #include "Display/display.h"
 #include "Core/accessibility.h"
 #include "Core/codeParsedWordLibrary.h"
 #include "Core/terminalInterface.h"
 #include "Core/options.h"
+#include "Core/playerCreation.h"
 #define sr Serial.read()
 
 TFT_eSPI tft = TFT_eSPI();
 int headingSize = 3;
 int regularSize = 2;
+const int maxNameLength = 10;
+int letterPosition = 0;
+char playerNameBuffer[maxNameLength + 1] = {0}; // Buffer to hold player name input
 
 // Global interface state variable
 // 0 - Resizing terminal
@@ -67,12 +72,31 @@ void keyHandler(char key)
       }
     }
     break;
-  case 3: // Player setup
-    // Future implementation for handling player setup inputs
+  case 3:                       // Player setup
+    if (key == 8 || key == 127) // Backspace key
+    {
+      deletePlayerNameChar(letterPosition);
+    }
     if (key == 27) // ESC key
     {
       mainMenu();
       option = NEW_PLAYER;
+      letterPosition = 0;
+    }
+    // Read into player name buffer
+    if ((key >= 32 && key <= 122)) // Printable characters
+    {
+      if (letterPosition >= maxNameLength)
+      {
+        // Do nothing if max length reached
+        break;
+      }
+      // Future implementation for adding character to player name
+      WritePlayerNameChar(key, letterPosition);
+    }
+    if ((key == '\n' || key == '\r') && letterPosition > 0) // Enter key
+    {
+      createNewPlayer(); // Future implementation to pass actual name
     }
     break;
   case 4: // Player choice
@@ -99,6 +123,7 @@ void setup()
   terminalInterfaceInit();
   // use GPIO35 to flip the screen orientation
   pinMode(35, INPUT_PULLUP);
+  pinMode(0, INPUT_PULLUP);
 }
 
 void loop()
@@ -108,6 +133,11 @@ void loop()
   {
     // Through adding more object instances will take up more flash storage
     getFlashStorageInfo();
+    delay(500); // Debounce delay
+  }
+  if (digitalRead(0) == LOW)
+  {
+    fetchVariables();
     delay(500); // Debounce delay
   }
   // When a key is pressed

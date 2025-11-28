@@ -2,6 +2,8 @@
 #include "Core/terminalInterface.h"
 #include "Display/terminalCommands.h"
 #include "Core/options.h"
+#include "Core/playerCreation.h"
+
 #define sp(x) Serial.print(x)
 #define spln(x) Serial.println(x)
 #define sw(x) Serial.write(x)
@@ -11,8 +13,9 @@
 #define height 30
 
 extern int interfaceState;
-// To be considered if needed:
-// extern options option;
+extern int letterPosition; // Tracks the current position in the player name input
+extern const int maxNameLength; // Maximum length for player name input
+extern char playerNameBuffer[]; // Buffer to hold player name input
 
 // Alias for workable int values
 int workableWidth = width - 2;   // 2 for the sides
@@ -187,10 +190,33 @@ void playerSetup()
     sp("________________________");
     setCursor(12, textCenter(36));
     sp("Enter username (max 10 characters):");
-    setCursor(14, textCenter(12));
+    setCursor(14, textCenter(2));
     sp("> ");
+    setCursor(height - 3, 2);
+    sp("Use Backspace to delete characters.");
     setCursor(height - 2, 2);
     sp("Press ESC to return to main menu.");
+}
+
+void WritePlayerNameChar(char c, int letterPos)
+{
+    setCursor(14, textCenterEnd(2) + letterPos);
+    sp(c);
+    letterPosition++;
+    playerNameBuffer[letterPos] = c;
+}
+void deletePlayerNameChar(int letterPos)
+{
+    if (letterPos <= 0)
+    {
+        return; // Nothing to delete
+    }
+    // Decrement and synchronize letterPosition with letterPos
+    letterPosition--;
+    letterPos = letterPosition;
+    setCursor(14, textCenterEnd(2) + letterPos);
+    sp(" ");
+    playerNameBuffer[letterPos] = '\0'; // Null-terminate the string
 }
 
 void chooseExistingPlayer()
